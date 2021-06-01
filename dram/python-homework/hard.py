@@ -15,9 +15,7 @@ import sys
 #    print (param.lower())
 #print('</li>')
 #print('</ul>')
-str_input = ""
-for param in sys.argv[1:]:
-    str_input += param + " "
+str_input = " ".join(sys.argv[1:])
 my_html = """
 <!DOCTYPE html>
 <html lang="en">
