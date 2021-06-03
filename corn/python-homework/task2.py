@@ -1,10 +1,5 @@
 import sys
 
-#print('<ul>\n\t  <li> Original text:\n\t\t <ul>\n\t\t\t <li>' + sys.argv[1] + '\n\t\t</ul>\n\t',
-#                '<li> All letters big:\n\t\t <ul>\n\t\t\t <li>' + sys.argv[1].upper()+'\n\t\t</ul>\n\t',
- #               '<li> All letters small:\n\t\t <ul>\n\t\t\t <li>' + sys.argv[1].lower()+'\n\t\t</ul>\n</ul>')
-
-# Вариант через .format
 html = (""" 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,24 +26,6 @@ html = ("""
     </ul>
     </body>
 </html>
-    """.format(original = sys.argv[1],upper = sys.argv[1].upper(),lower = sys.argv[1].lower()))
-    
-    
+    """.format(original = sys.argv[1],upper = sys.argv[1].upper(),lower = sys.argv[1].lower()))   
 print(html)
-#более читабельный для человека
-'''
-print('<ul>\n\t'
-        '<li>Original text:\n\t\t'
-             '<ul>\n\t\t\t'  
-                 '<li>' + sys.argv[1]+'\n\t\t'
-             '</ul>\n\t',
-        '<li>All letters big:\n\t\t'
-             '<ul>\n\t\t\t'  
-                 '<li>' + sys.argv[1].upper()+'\n\t\t'
-             '</ul>\n\t',
-        '<li>All letters small:\n\t\t'
-                '<ul>\n\t\t\t'  
-                    '<li>' + sys.argv[1].lower()+'\n\t\t'
-                '</ul>\n'
-       '</ul>')
-'''
+
