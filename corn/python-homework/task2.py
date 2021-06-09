@@ -1,6 +1,6 @@
 import sys
 
-html = (""" 
+html = ("""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +26,6 @@ html = ("""
     </ul>
     </body>
 </html>
-    """.format(original = sys.argv[1],upper = sys.argv[1].upper(),lower = sys.argv[1].lower()))   
+""".format(original=sys.argv[1], upper=sys.argv[1].upper(),
+           lower=sys.argv[1].lower()))
 print(html)
-
