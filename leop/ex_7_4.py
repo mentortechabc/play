@@ -9,14 +9,17 @@
 prompt = "\nTell me please, what would you like to add to your pizza."
 prompt += "\nEnter 'quit' if it's enough. "
 order_is_ready = "\nThank you for your order!"
-requested_topping = ""
-while requested_topping != "quit":
-    requested_topping = input(prompt)
-    message = "We added " + requested_topping + " to your pizza!"
-    if requested_topping != 'quit':
-        print(message)
-    else:
-        print(order_is_ready)
-        break
-    
+
+def order_pizza(requested_topping):
+    requested_topping = ""
+    while requested_topping != "quit":
+        requested_topping = input(prompt)
+        message = "We added " + requested_topping + " to your pizza!"
+        if requested_topping != 'quit':
+            print(message)
+        else:
+            print(order_is_ready)
+            break
+
+order_pizza("")
 print("\nWait for your pizza!")
