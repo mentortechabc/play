@@ -12,13 +12,12 @@ def add_name(names, new_name):
     """
 
     # put your code here
-    while True:
-        if new_name in names:
-            return False
-        else:
-            names.append(new_name)
-            names.sort()
-            return True
+    if new_name in names:
+        return False
+    else:
+        names.append(new_name)
+        names.sort()
+        return True
 
 
 def test_add_name():
