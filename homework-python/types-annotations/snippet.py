@@ -1,3 +1,36 @@
+from typing import List, Dict, Union
+
+
+def get_x():
+    return 100
+
+
+def get_y():
+    return 200
+
+
+class YourClass:
+    pass
+
+
+Mytype = List[Dict[int, List[int]]]
+
+
+def f(x: 'str', y: Dict[int, str]) -> YourClass:
+    return YourClass()
+
+
+x = get_x()
+y = get_y()
+d = {"asdas": YourClass()}
+d = {}
+result = f(12, d)
+result = f("12", d)
+result = f({}, d)
+
+print(result)
+exit(0)
+
 from typing import Dict, Callable
 
 
