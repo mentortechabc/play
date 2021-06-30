@@ -1,6 +1,19 @@
+## Материалы
+
 https://www.youtube.com/watch?v=TwnCXdCa8qg - series of videos
 
 https://docs.python.org/3/library/sqlite3.html - official module docs
+
+## Инструменты и основные понятия
+
+* DB, DBMS
+* SQL
+* sqlite
+* sqlite browser
+* basic SQL commands: create/drop table, select, insert, delete, update
+* joins (how to join tables, what is left/right/outer join)
+* running SQL from python (sqlite3 module)
+
 
 ## sqlite browser
 
