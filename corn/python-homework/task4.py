@@ -6,9 +6,9 @@ lst = []
 with open('list.txt', 'a+') as MyFile:
     print('import complete')
 
-with open("list.txt") as file:
-    for line in file:
-        lst.append(line.strip())
+with open('list.txt', 'r+') as MyFile:
+    lst = [MyFile.read()]
+
 
 
 def compare_and_add(x):
@@ -32,7 +32,9 @@ while True:
     if command == 'exit':
         MyFile = open('list.txt', 'w')
         for element in lst:
-            MyFile.write(element + '\n')
+
+            MyFile.write(str(element)+'\n')
+
         sys.exit()
     elif "add" in command:
         compare_regular_expressions(command)
