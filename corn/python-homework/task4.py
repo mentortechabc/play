@@ -10,6 +10,7 @@ with open('list.txt', 'r+') as MyFile:
     lst = [MyFile.read()]
 
 
+
 def compare_and_add(x):
     if x in lst:
         return print('name already exists')
@@ -31,7 +32,9 @@ while True:
     if command == 'exit':
         MyFile = open('list.txt', 'w')
         for element in lst:
+
             MyFile.write(str(element)+'\n')
+
         sys.exit()
     elif "add" in command:
         compare_regular_expressions(command)

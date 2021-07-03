@@ -1,0 +1,1 @@
+https://pythonworld.ru/uploads/mementopython3-russian.pdf
