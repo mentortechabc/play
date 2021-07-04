@@ -1,5 +1,5 @@
 
 def delete_interval(namespace):
     """удаляем интервал"""
-    print("delete, intervsl {} to {}".format(
+    print("delete, interval {} to {}".format(
         namespace.start, namespace.end))
