@@ -22,6 +22,4 @@ def add_interval(namespace_start, namespace_end):
 
 date_a = datetime(2020, 6, 24, 10, 30)
 date_b = datetime(2020, 6, 24, 20, 30)
-if date_a.minute % 15 == 0:
-    print('rigth time')
 add_interval(date_a, date_b)
