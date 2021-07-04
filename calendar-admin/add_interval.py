@@ -2,11 +2,9 @@ import sqlite3 as sq
 from datetime import timedelta, datetime
 
 
-# def add_interval(namespace):
-#     """добавление интервала"""
-#     print("add interval {} to {}".format(
-#         namespace.start, namespace.end))
-def add_interval(namespace_start, namespace_end):
+def add_interval(namespace):
+    namespace_start = datetime.strptime(namespace.start, "%Y-%m-%d:%H:%M")
+    namespace_end = datetime.strptime(namespace.end, "%Y-%m-%d:%H:%M")
     interval = namespace_start
     if namespace_start.minute % 15 == 0 and namespace_end.minute % 15 == 0:
         while interval < namespace_end:
@@ -20,6 +18,3 @@ def add_interval(namespace_start, namespace_end):
         print('Введите интервал кратный 15 минутам')
 
 
-date_a = datetime(2020, 6, 24, 10, 30)
-date_b = datetime(2020, 6, 24, 20, 30)
-add_interval(date_a, date_b)
