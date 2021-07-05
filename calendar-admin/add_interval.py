@@ -13,7 +13,6 @@ def add_interval(namespace):
                 cur = con.cursor()
 
                 cur.execute("INSERT INTO slot (start_interval) VALUES (?)", [interval])
-            print(interval)
             interval += timedelta(minutes=15)
     else:
         print('Введите интервал кратный 15 минутам')
