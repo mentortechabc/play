@@ -3,7 +3,7 @@ import sqlite3
 
 
 def test_create_admininfo_table():
-    connection = sqlite3.connect(":memory:")
+    connection = db.create_connection()
 
     db.create_admininfo_table(connection)
 
