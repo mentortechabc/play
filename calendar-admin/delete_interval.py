@@ -9,7 +9,7 @@ def delete_interval(namespace):
     interval = namespace_start
     if namespace_start.minute % 15 == 0 and namespace_end.minute % 15 == 0:
         while interval < namespace_end:
-            with sq.connect('database.db') as con:
+            with sq.connect(':memory:') as con:
                 cur = con.cursor()
 
                 cur.execute("DELETE FROM slot WHERE start_interval == (?)", [interval])
