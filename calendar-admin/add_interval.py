@@ -2,18 +2,6 @@ import sqlite3 as sq
 from datetime import timedelta, datetime
 
 
-# def create_list_intervals():
-#     with sq.connect('database.db') as con:
-#         cur = con.cursor()
-#
-#         cur.execute("SELECT start_interval FROM slot")
-#         intervals = cur.fetchall()
-#     return intervals
-#
-# create_list_intervals()
-# print(intervals)
-
-
 def add_interval(namespace):
     """Добавление интервала в базу данных"""
     namespace_start = datetime.strptime(namespace.start, "%Y-%m-%d:%H:%M")
