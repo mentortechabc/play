@@ -19,6 +19,7 @@ while True:
 
     # Get the client request
     request = client_connection.recv(1024).decode()
+    # TODO: process requests depending on the HTTP method and the resource Id
     top = request.splitlines()[0]
     print(top)
     # print(request)
@@ -28,5 +29,7 @@ while True:
     client_connection.sendall(response.encode())
     client_connection.close()
 
+
 # Close socket
+# TODO: close socket on errors
 server_socket.close()
