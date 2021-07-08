@@ -1,0 +1,1 @@
+https://www.delftstack.com/howto/python/exit-codes-in-python/
