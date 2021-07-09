@@ -24,7 +24,7 @@ def createParser():
     delete_day.add_argument('date', help="date YYYY-MM-DD")
 
     get_slots = subparsers.add_parser('get_slots')
-    get_slots.add_argument('--week', '-w', help="#######")
+    get_slots.add_argument('--week', '-w', help="7 days from date YYYY-MM-DD")
     get_slots.add_argument('--day', '-d', help="day YYYY-MM-DD")
     get_slots.add_argument(
         '--filter', '-f', help="booking or free", choices=['booking', 'free'])
@@ -36,85 +36,56 @@ def check_func():
     """проверяет на правильность команд"""
 
     parser = createParser()
-    namespace = parser.parse_args()
+    params = parser.parse_args()
 
-    if namespace.command == "add_interval":
-        check_format_add_interval(namespace, ai.add_interval)
-    elif namespace.command == "delete_interval":
-        check_format_add_interval(namespace, di.delete_interval)
-    elif namespace.command == "delete_day":
-        chech_format_delete_day(namespace)
-    elif namespace.command == "get_slots":
-        check_format_get_slots(namespace)
+    if params.command == "add_interval":
+        check_format_add_interval(params, ai.add_interval)
+    elif params.command == "delete_interval":
+        check_format_add_interval(params, di.delete_interval)
+    elif params.command == "delete_day":
+        check_format_delete_day(params)
+    elif params.command == "get_slots":
+        check_format_get_slots(params)
     else:
-        print("Ups...")
+        print("Wrong command!")
 
 
-def check_format_add_interval(namespace, func):
+def check_format_add_interval(params, func):
     """запуск функции add_interval и delete_interval если аргументы соответствуют условию"""
-    if (regular_start_end(namespace.start) is True) and (regular_start_end(namespace.end) is True):
-        func(namespace)
+    if (regular_start_end(params.start) is True) and (regular_start_end(params.end) is True):
+        func(params)
     else:
         print("wrong format add_interval")
 
-# def check_format_add_interval(namespace):
-#     """запуск функции add_interval, если аргументы соответствуют условию"""
-#     if (regular_start_end(namespace.start) is True) and (regular_start_end(namespace.end) is True):
-#         ai.add_interval(namespace)
-#     else:
-#         print("wrong format add_interval")
 
-
-# def check_format_delete_interval(namespace):
-#     """запуск функции delete_interval если аргументы соответствуют условию"""
-#     if (regular_start_end(namespace.start) is True) and (regular_start_end(namespace.end) is True):
-#         di.delete_interval(namespace)
-#     else:
-#         print("wrong format delete_interval")
-
-
-def chech_format_delete_day(namespace):
+def check_format_delete_day(params):
     """запуск функции delete_day, если аргументы соответствуют условию"""
-    if regular_day(namespace.date) is True:
-        dd.delete_day(namespace)
+    if regular_day(params.date) is True:
+        dd.delete_day(params)
     else:
         print("wrong format delete_day")
 
 
-def check_format_get_slots(namespace):
+def check_format_get_slots(params):
     """запуск функции get_slots, если аргументы соответствуют условию"""
-    if (check_week(namespace) is False) or (check_day(namespace) is False) or (check_filter(namespace) is False):
+    if (check_day_week(params.week) is False) or (check_day_week(params.day) is False) or (check_filter(params) is False):
         print("wrong format get_slots")
     else:
-        gs.get_slots(namespace)
+        gs.get_slots(params)
 
 
-def check_week(namespace):
-    """проверяет что week не равен None"""
-    if namespace.week is not None:
-        return regular_week(namespace.week)
-    else:
-        return True
-
-
-def regular_week(namespace):
-    """регулярка для проверки формата week"""
-    return True
-# уточнить формат недели и сделать регулярку
-
-
-def check_day(namespace):
+def check_day_week(params):
     """проверка что day не равен None"""
-    if namespace.day is not None:
-        return regular_day(namespace.day)
+    if params is not None:
+        return regular_day(params)
     else:
         return True
 
 
-def check_filter(namespace):
+def check_filter(params):
     """проверка что filter не равен None"""
-    if namespace.filter is not None:
-        return regular_filter(namespace.filter)
+    if params.filter is not None:
+        return regular_filter(params.filter)
     else:
         return True
 
@@ -129,7 +100,8 @@ def regular_filter(x):
 
 def regular_start_end(x):
     """решулярка для проверки формата start и end[YYYY-MM-DD:HH:MM]"""
-    pattern = r'[0-9]{4}[-][0-9]{2}[-][0-9]{2}[:][0-9]{2}[:][0-9]{2}$'
+    # pattern = r'[0-9]{4}[-][0-9]{2}[-][0-9]{2}[:][0-9]{2}[:][0-9]{2}$'
+    pattern = r'^([0-9]{4}[-]?((0[13-9]|1[012])[-]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-]?31|02[-]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048])00)[-]?02[-]?29)[:](0[0-1]|1[0-9]|2[0-3])[:]([0-5]{1}[0-9]{1})$'
     if re.match(pattern, x):
         return True
     else:
@@ -138,7 +110,8 @@ def regular_start_end(x):
 
 def regular_day(x):
     """регулярка для проверки формата date[YYYY-MM-DD]"""
-    pattern = r'[0-9]{4}[-][0-9]{2}[-][0-9]{2}$'
+    # pattern = r'[0-9]{4}[-][0-9]{2}[-][0-9]{2}$'
+    pattern = r'^([0-9]{4}[-]?((0[13-9]|1[012])[-]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-]?31|02[-]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048])00)[-]?02[-]?29)$'
     if re.match(pattern, x):
         return True
     else:
