@@ -9,7 +9,7 @@ def add_interval(namespace):
     interval = namespace_start
     if namespace_start.minute % 15 == 0 and namespace_end.minute % 15 == 0:
         while interval < namespace_end:
-            with sq.connect(':memory:') as con:
+            with sq.connect(namespace.path) as con:
                 cur = con.cursor()
 
                 cur.execute("SELECT start_interval FROM slot WHERE start_interval == (?)", [interval])

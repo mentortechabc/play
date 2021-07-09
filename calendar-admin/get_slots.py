@@ -11,7 +11,7 @@ def get_slots(namespace):
         namespace_end = namespace_start + timedelta(days=1)
         interval = namespace_start
         while interval < namespace_end:
-            with sq.connect(':memory:') as con:
+            with sq.connect(namespace.path) as con:
                 cur = con.cursor()
 
                 cur.execute("SELECT * FROM slot WHERE start_interval == (?)", [interval])
