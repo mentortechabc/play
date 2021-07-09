@@ -2,16 +2,16 @@ import sqlite3 as sq
 from datetime import timedelta, datetime
 
 
-def get_slots(namespace):
+def get_slots(params):
     """получаем список слотов"""
-    if namespace.week:
-        print("week slots: {}".format(namespace.week))
-    if namespace.day:
-        namespace_start = datetime.strptime(namespace.day, "%Y-%m-%d")
+    if params.week:
+        print("week slots: {}".format(params.week))
+    if params.day:
+        namespace_start = datetime.strptime(params.day, "%Y-%m-%d")
         namespace_end = namespace_start + timedelta(days=1)
         interval = namespace_start
         while interval < namespace_end:
-            with sq.connect(namespace.path) as con:
+            with sq.connect(params.path) as con:
                 cur = con.cursor()
 
                 cur.execute("SELECT * FROM slot WHERE start_interval == (?)", [interval])
@@ -19,7 +19,7 @@ def get_slots(namespace):
             interval += timedelta(minutes=15)
             for result in cur:
                 print(result)
-        print("day slots: {}".format(namespace.day))
+        print("day slots: {}".format(params.day))
 
-    if namespace.filter:
-        print("filter: {}".format(namespace.filter))
+    if params.filter:
+        print("filter: {}".format(params.filter))
