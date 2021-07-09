@@ -4,7 +4,6 @@ import delete_day as dd
 import delete_interval as di
 import add_interval as ai
 import re
-import db
 
 
 def createParser():
@@ -34,20 +33,13 @@ def createParser():
     return parser
 
 
-def check_func():
+def correctness_commands(params):
     """проверяет на правильность команд"""
 
-    parser = createParser()
-    params = parser.parse_args()
-    con = db.create_connection(params.path)
-    db.create_slots_table(con)
-    db.create_admininfo_table(con)
-    db.create_bookinginfo_table(con)
-
     if params.command == "add_interval":
-        check_format_add_interval(params, ai.add_interval)
+        check_format_add_and_del_interval(params, ai.add_interval)
     elif params.command == "delete_interval":
-        check_format_add_interval(params, di.delete_interval)
+        check_format_add_and_del_interval(params, di.delete_interval)
     elif params.command == "delete_day":
         check_format_delete_day(params)
     elif params.command == "get_slots":
@@ -56,7 +48,7 @@ def check_func():
         print("Wrong command!")
 
 
-def check_format_add_interval(params, func):
+def check_format_add_and_del_interval(params, func):
     """запуск функции add_interval и delete_interval если аргументы соответствуют условию"""
     if (regular_start_end(params.start) is True) and (regular_start_end(params.end) is True):
         func(params)
@@ -74,13 +66,13 @@ def check_format_delete_day(params):
 
 def check_format_get_slots(params):
     """запуск функции get_slots, если аргументы соответствуют условию"""
-    if (check_day_week(params.week) is False) or (check_day_week(params.day) is False) or (check_filter(params) is False):
+    if (check_day_and_week(params.week) is False) or (check_day_and_week(params.day) is False) or (check_filter(params) is False):
         print("wrong format get_slots")
     else:
         gs.get_slots(params)
 
 
-def check_day_week(params):
+def check_day_and_week(params):
     """проверка что day не равен None"""
     if params is not None:
         return regular_day(params)
