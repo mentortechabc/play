@@ -7,10 +7,10 @@ def get_slots(params):
     if params.week:
         print("week slots: {}".format(params.week))
     if params.day:
-        namespace_start = datetime.strptime(params.day, "%Y-%m-%d")
-        namespace_end = namespace_start + timedelta(days=1)
-        interval = namespace_start
-        while interval < namespace_end:
+        params_start = datetime.strptime(params.day, "%Y-%m-%d")
+        params_end = params_start + timedelta(days=1)
+        interval = params_start
+        while interval < params_end:
             with sq.connect(params.path) as con:
                 cur = con.cursor()
 
