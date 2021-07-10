@@ -10,7 +10,7 @@ def createParser():
     """создает парсер,подпарсер с аргументами командной строки"""
     parser = argparse.ArgumentParser(
         description="reads commands and arguments")
-    parser.add_argument('--path', '-p', default=':memory:')
+    parser.add_argument('--path', '-p', default='main_db.sqlite')
     subparsers = parser.add_subparsers(dest='command')
 
     add_interval = subparsers.add_parser('add_interval')
