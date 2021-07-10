@@ -1,4 +1,4 @@
-import sqlite3 as sq
+import db
 from datetime import timedelta, datetime
 
 
@@ -11,7 +11,7 @@ def get_slots(params):
         params_end = params_start + timedelta(days=1)
         interval = params_start
         while interval < params_end:
-            with sq.connect(params.path) as con:
+            with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
                 cur.execute("SELECT * FROM slot WHERE start_interval == (?)", [interval])

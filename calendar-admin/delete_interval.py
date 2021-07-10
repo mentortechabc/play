@@ -1,4 +1,4 @@
-import sqlite3 as sq
+import db
 from datetime import timedelta, datetime
 
 
@@ -9,7 +9,7 @@ def delete_interval(params):
     interval = params_start
     if params_start.minute % 15 == 0 and params_end.minute % 15 == 0:
         while interval < params_end:
-            with sq.connect(params.path) as con:
+            with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
                 cur.execute("DELETE FROM slot WHERE start_interval == (?)", [interval])
