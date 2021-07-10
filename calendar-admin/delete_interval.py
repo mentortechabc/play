@@ -1,6 +1,6 @@
 import db
 from convert_time import convert_to_utc
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 
 def delete_interval(params):
@@ -13,7 +13,7 @@ def delete_interval(params):
             with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
-                cur.execute("DELETE FROM slot WHERE start_interval == (?)", [interval])
+                cur.execute("DELETE FROM Slots WHERE start_interval == (?)", [interval])
             interval += timedelta(minutes=15)
     else:
         print('Введите интервал кратный 15 минутам')
