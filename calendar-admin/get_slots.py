@@ -13,10 +13,11 @@ def get_slots(params):
             with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
-                cur.execute("SELECT * FROM Slots WHERE start_interval == (?)", [interval])
+                cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [interval])
             interval += timedelta(minutes=15)
-            for result in cur:
-                print(convert_from_utc(result))
+            for results in cur:
+                for result in results:
+                    print(convert_from_utc(result))
     if params.day:
         params_start = convert_to_utc_day(params.day)
         params_end = params_start + timedelta(days=1)
@@ -25,13 +26,11 @@ def get_slots(params):
             with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
-                cur.execute("SELECT * FROM Slots WHERE start_interval == (?)", [interval])
+                cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [interval])
+            for results in cur:
+                for result in results:
+                    print(convert_from_utc(result))
             interval += timedelta(minutes=15)
-            print(cur)
-            for result in cur:
-                print(convert_from_utc(result))
-
-        # print("day slots: {}".format(params.day))
 
     if params.filter:
         print("filter: {}".format(params.filter))

@@ -20,6 +20,7 @@ def convert_to_utc_day(params_time):
 def convert_from_utc(params_time):
     """конвертирует время из UTC0 в соответствии с таймзоной пользователя"""
     timezone = datetime.now()-datetime.utcnow()
+    params_time = datetime.strptime(params_time, "%Y-%m-%d %H:%M:%S")
     params_time += timezone
     return params_time
 
