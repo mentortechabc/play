@@ -1,11 +1,12 @@
 import db
+from convert_time import convert_to_utc
 from datetime import timedelta, datetime
 
 
 def add_interval(params):
     """Добавление интервала в базу данных"""
-    params_start: datetime = datetime.strptime(params.start, "%Y-%m-%d:%H:%M")
-    params_end = datetime.strptime(params.end, "%Y-%m-%d:%H:%M")
+    params_start = convert_to_utc(params.start)
+    params_end = convert_to_utc(params.end)
     interval = params_start
     if params_start.minute % 15 == 0 and params_end.minute % 15 == 0:
         while interval < params_end:

@@ -1,4 +1,5 @@
 import db
+from convert_time import convert_from_utc, convert_to_utc_day
 from datetime import timedelta, datetime
 
 
@@ -7,7 +8,7 @@ def get_slots(params):
     if params.week:
         print("week slots: {}".format(params.week))
     if params.day:
-        params_start = datetime.strptime(params.day, "%Y-%m-%d")
+        params_start = convert_to_utc_day(params.day)
         params_end = params_start + timedelta(days=1)
         interval = params_start
         while interval < params_end:
@@ -15,11 +16,10 @@ def get_slots(params):
                 cur = con.cursor()
 
                 cur.execute("SELECT * FROM slot WHERE start_interval == (?)", [interval])
-            # print(interval)
             interval += timedelta(minutes=15)
             for result in cur:
-                print(result)
-        print("day slots: {}".format(params.day))
+                print(convert_from_utc(result))
+        # print("day slots: {}".format(params.day))
 
     if params.filter:
         print("filter: {}".format(params.filter))
