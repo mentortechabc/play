@@ -7,14 +7,11 @@ def delete_day(params):
     """удаляет незанятые интервалы дня"""
     params_start = convert_to_utc_day(params.date)
     params_end = params_start + timedelta(days=1)
-    interval = params_start
-    while interval < params_end:
-        with db.create_connection(params.path) as con:
-            cur = con.cursor()
+    QUERY = " FROM Slots WHERE (?) <= start_interval AND (?) >= start_interval AND booking_id "
+    with db.create_connection(params.path) as con:
+        cur = con.cursor()
 
-            cur.execute("DELETE FROM Slots WHERE start_interval == (?) AND booking_id is null", [interval])
-            cur.execute("SELECT start_interval FROM Slots "
-                        "WHERE start_interval == (?) AND booking_id != '(None,)'", [interval])
-            for result in cur:
-                print("""booked interval: {}""".format(result))
-        interval += timedelta(minutes=15)
+        cur.execute("DELETE" + QUERY + "is null", [params_start, params_end])
+        cur.execute("SELECT start_interval" + QUERY + "NOT null", [params_start, params_end])
+        for result in cur:
+            print("""Can't delete booked interval: {}""".format(result))

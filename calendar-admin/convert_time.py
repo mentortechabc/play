@@ -36,6 +36,6 @@ def collapse_intervals(lst):
     new_lst.sort()
 
     n = 0
-    while n < len(new_lst):
+    while n < len(new_lst) - 1:
         print("""{} - {}""".format(new_lst[n], new_lst[n + 1]))
         n += 2
