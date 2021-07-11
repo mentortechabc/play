@@ -21,7 +21,7 @@ BOOKING_INFO_QUERY = """
 CREATE_SLOTS_QUERY = """
         CREATE TABLE IF NOT EXISTS Slots (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        start_interval TEXT NOT NULL,
+        start_interval TEXT NOT NULL UNIQUE,
         booking_id INTEGER,
         FOREIGN KEY(booking_id) REFERENCES BookingInfo(id)
     );
