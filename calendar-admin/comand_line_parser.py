@@ -10,6 +10,7 @@ def createParser():
     """создает парсер,подпарсер с аргументами командной строки"""
     parser = argparse.ArgumentParser(
         description="reads commands and arguments")
+    parser.add_argument('--path', '-p', default='main_db.sqlite')
     subparsers = parser.add_subparsers(dest='command')
 
     add_interval = subparsers.add_parser('add_interval')
@@ -32,16 +33,13 @@ def createParser():
     return parser
 
 
-def check_func():
+def correctness_commands(params):
     """проверяет на правильность команд"""
 
-    parser = createParser()
-    params = parser.parse_args()
-
     if params.command == "add_interval":
-        check_format_add_interval(params, ai.add_interval)
+        check_format_add_and_del_interval(params, ai.add_interval)
     elif params.command == "delete_interval":
-        check_format_add_interval(params, di.delete_interval)
+        check_format_add_and_del_interval(params, di.delete_interval)
     elif params.command == "delete_day":
         check_format_delete_day(params)
     elif params.command == "get_slots":
@@ -50,7 +48,7 @@ def check_func():
         print("Wrong command!")
 
 
-def check_format_add_interval(params, func):
+def check_format_add_and_del_interval(params, func):
     """запуск функции add_interval и delete_interval если аргументы соответствуют условию"""
     if (regular_start_end(params.start) is True) and (regular_start_end(params.end) is True):
         func(params)
@@ -68,13 +66,13 @@ def check_format_delete_day(params):
 
 def check_format_get_slots(params):
     """запуск функции get_slots, если аргументы соответствуют условию"""
-    if (check_day_week(params.week) is False) or (check_day_week(params.day) is False) or (check_filter(params) is False):
+    if (check_day_and_week(params.week) is False) or (check_day_and_week(params.day) is False) or (check_filter(params) is False):
         print("wrong format get_slots")
     else:
         gs.get_slots(params)
 
 
-def check_day_week(params):
+def check_day_and_week(params):
     """проверка что day не равен None"""
     if params is not None:
         return regular_day(params)
@@ -99,8 +97,7 @@ def regular_filter(x):
 
 
 def regular_start_end(x):
-    """решулярка для проверки формата start и end[YYYY-MM-DD:HH:MM]"""
-    # pattern = r'[0-9]{4}[-][0-9]{2}[-][0-9]{2}[:][0-9]{2}[:][0-9]{2}$'
+    """регулярка для проверки формата start и end[YYYY-MM-DD:HH:MM]"""
     pattern = r'^([0-9]{4}[-]?((0[13-9]|1[012])[-]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-]?31|02[-]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048])00)[-]?02[-]?29)[:](0[0-1]|1[0-9]|2[0-3])[:]([0-5]{1}[0-9]{1})$'
     if re.match(pattern, x):
         return True
@@ -110,7 +107,6 @@ def regular_start_end(x):
 
 def regular_day(x):
     """регулярка для проверки формата date[YYYY-MM-DD]"""
-    # pattern = r'[0-9]{4}[-][0-9]{2}[-][0-9]{2}$'
     pattern = r'^([0-9]{4}[-]?((0[13-9]|1[012])[-]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-]?31|02[-]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048])00)[-]?02[-]?29)$'
     if re.match(pattern, x):
         return True
