@@ -10,11 +10,20 @@ def get_slots(params):
         params_start = convert_to_utc_day(params.week)
         params_end = params_start + timedelta(days=8)
         interval = params_start
+
         while interval < params_end:
             with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
-                cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [interval])
+                if params.filter:
+                    if params.filter == "free":
+                        cur.execute("SELECT start_interval FROM Slots "
+                                    "WHERE start_interval == (?) AND booking_id is null", [interval])
+                    else:
+                        cur.execute("SELECT start_interval FROM Slots "
+                                    "WHERE start_interval == (?) AND booking_id NOT null", [interval])
+                else:
+                    cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [interval])
             interval += timedelta(minutes=15)
 
             for results in cur:
@@ -30,13 +39,18 @@ def get_slots(params):
             with db.create_connection(params.path) as con:
                 cur = con.cursor()
 
-                cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [interval])
+                if params.filter:
+                    if params.filter == "free":
+                        cur.execute("SELECT start_interval FROM Slots "
+                                    "WHERE start_interval == (?) AND booking_id is null", [interval])
+                    else:
+                        cur.execute("SELECT start_interval FROM Slots "
+                                    "WHERE start_interval == (?) AND booking_id NOT null", [interval])
+                else:
+                    cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [interval])
             interval += timedelta(minutes=15)
 
             for results in cur:
                 for result in results:
                     lst.append(convert_from_utc(result))
         collapse_intervals(lst)
-
-    if params.filter:
-        print("filter: {}".format(params.filter))
