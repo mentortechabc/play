@@ -53,7 +53,7 @@ def check_format_add_and_del_interval(params, func):
     if (regular_start_end(params.start) is True) and (regular_start_end(params.end) is True):
         func(params)
     else:
-        print("wrong format add_interval")
+        print("wrong format datetime")
 
 
 def check_format_delete_day(params):
@@ -98,7 +98,7 @@ def regular_filter(x):
 
 def regular_start_end(x):
     """регулярка для проверки формата start и end[YYYY-MM-DD:HH:MM]"""
-    pattern = r'^([0-9]{4}[-]?((0[13-9]|1[012])[-]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-]?31|02[-]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048])00)[-]?02[-]?29)[:](0[0-1]|1[0-9]|2[0-3])[:]([0-5]{1}[0-9]{1})$'
+    pattern = r'^([0-9]{4}[-]?((0[13-9]|1[012])[-]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-]?31|02[-]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048])00)[-]?02[-]?29)[:](0[0-9]|1[0-9]|2[0-3])[:]([0-5]{1}[0-9]{1})$'
     if re.match(pattern, x):
         return True
     else:
