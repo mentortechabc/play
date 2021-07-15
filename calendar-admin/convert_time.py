@@ -25,7 +25,7 @@ def convert_from_utc(params_time):
     return params_time
 
 
-def collapse_intervals(lst):
+def collapse_and_print_intervals(lst):
     """Схлопывает интервалы из списка и выводит пользователю в отфоматированном виде"""
     i = -1
     new_lst = []
