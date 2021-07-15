@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def convert_to_utc(params_time):
@@ -24,3 +24,18 @@ def convert_from_utc(params_time):
     params_time += timezone
     return params_time
 
+
+def collapse_and_print_intervals(lst):
+    """Схлопывает интервалы из списка и выводит пользователю в отфоматированном виде"""
+    i = -1
+    new_lst = []
+    while i < len(lst) - 1:
+        if lst[i] + timedelta(minutes=15) != lst[i + 1] or lst[i] - timedelta(minutes=15) != lst[i - 1]:
+            new_lst.append(lst[i])
+        i += 1
+    new_lst.sort()
+
+    n = 0
+    while n < len(new_lst) - 1:
+        print("""{} - {}""".format(new_lst[n], new_lst[n + 1]))
+        n += 2
