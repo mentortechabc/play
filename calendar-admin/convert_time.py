@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 def convert_to_utc(params_time):
     """конвертирует время из таймзоны пользователя в UTC0"""
-    params_time = datetime.strptime(params_time, "%Y-%m-%d:%H:%M")
+    params_time = datetime.strptime(params_time, "%Y-%m-%dT%H:%M")
     timezone = datetime.now()-datetime.utcnow()
     params_time -= timezone
     return params_time
@@ -37,5 +37,6 @@ def collapse_and_print_intervals(lst):
 
     n = 0
     while n < len(new_lst) - 1:
-        print("""{} - {}""".format(new_lst[n], new_lst[n + 1]))
-        n += 2
+        collapse_interval = ("""{} - {}""".format(new_lst[n], new_lst[n + 1]))
+        return collapse_interval
+    n += 2
