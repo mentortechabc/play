@@ -1,4 +1,3 @@
-from sys import modules
 from types import SimpleNamespace
 import delete_day
 from .func_for_test_db import clean_table_slots, create_test_table, get_test_slots, convert_from_utc_test
