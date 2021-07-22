@@ -20,9 +20,12 @@ def add_interval(params):
                     assert len(interval_tuple) == 1
                     interval = interval_tuple[0]
 
-                    print('interval {} already exist'.format(convert_from_utc(interval)))
+                    print('interval {} - {} already exist'.format(convert_from_utc(interval),
+                                                                  convert_from_utc(interval)+timedelta(minutes=15)))
                 else:
                     cur.execute("INSERT INTO Slots (start_interval) VALUES (?)", [params_start])
             params_start += timedelta(minutes=15)
     else:
-        print('Введите интервал кратный 15 минутам')
+        mes = 'Введите интервал кратный 15 минутам'
+        print(mes)
+        return mes

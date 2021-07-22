@@ -1,32 +1,25 @@
 from types import SimpleNamespace
-import delete_day as dd
-from .func_for_test_db import *
-import add_interval as ai
+import delete_day
+from .func_for_test_db import clean_table_slots, create_test_table, get_test_slots, convert_from_utc_test
+import add_interval
+import pytest
 
 
-def test_delete_day():
+@pytest.fixture(scope='module')
+def create_test_table_with_data_for_del_day():
     params_for_add = SimpleNamespace(
-        path="test_main_db.sqlite", start="2021-03-02:12:00", end="2021-03-02:13:15")
+        path="test_main_db.sqlite", start="2021-03-02T22:45", end="2021-03-03T03:15")
+    clean_table_slots(params_for_add)
+    create_test_table(params_for_add)
+    add_interval.add_interval(params_for_add)
+
+
+def test_delete_day(create_test_table_with_data_for_del_day):
     params = SimpleNamespace(path="test_main_db.sqlite", date="2021-03-02")
-    clean_table_slots(params)
-    create_test_table(params)
-    ai.add_interval(params_for_add)
-    dd.delete_day(params)
+    delete_day.delete_day(params)
     result = get_test_slots(params)
-    assert result == []
-
-
-def test_delete_day_1():
-    params_for_add = SimpleNamespace(
-        path="test_main_db.sqlite", start="2021-03-02:22:45", end="2021-03-03:03:15")
-    params = SimpleNamespace(path="test_main_db.sqlite", date="2021-03-02")
-    clean_table_slots(params)
-    create_test_table(params)
-    ai.add_interval(params_for_add)
-    dd.delete_day(params)
-    result = get_test_slots(params)
-    assert len(result) == 13
-    assert result[0] == (6, "2021-03-02 21:00:00", None)
-    assert result[6] == (12, "2021-03-02 22:30:00", None)
-    assert result[12] == (18, "2021-03-03 00:00:00", None)
-
+    lst = convert_from_utc_test(result)
+    assert len(lst) == 12
+    assert lst[0] == '2021-03-03T00:15'
+    assert lst[6] == '2021-03-03T01:45'
+    assert lst[11] == '2021-03-03T03:00'

@@ -34,7 +34,9 @@ def get_slots(params):
             assert len(interval_tuple) == 1
             interval = interval_tuple[0]
             lst_of_intervals.append(convert_from_utc(interval))
-        collapse_and_print_intervals(lst_of_intervals)
+        collapse_interval = collapse_and_print_intervals(lst_of_intervals)
+        print (collapse_interval)
+        return collapse_interval
 
     if params.day:
         param_start = convert_to_utc_day(params.day)
@@ -45,4 +47,6 @@ def get_slots(params):
             assert len(interval_tuple) == 1
             interval = interval_tuple[0]
             lst_of_intervals.append(convert_from_utc(interval))
-        collapse_and_print_intervals(lst_of_intervals)
+        collapse_interval = collapse_and_print_intervals(lst_of_intervals)
+        print (collapse_interval)
+        return collapse_interval
