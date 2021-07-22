@@ -26,4 +26,6 @@ def add_interval(params):
                     cur.execute("INSERT INTO Slots (start_interval) VALUES (?)", [params_start])
             params_start += timedelta(minutes=15)
     else:
-        print('Введите интервал кратный 15 минутам')
+        mes = 'Введите интервал кратный 15 минутам'
+        print(mes)
+        return mes
