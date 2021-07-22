@@ -27,11 +27,15 @@ def convert_from_utc(params_time):
 
 def collapse_and_print_intervals(lst):
     """Схлопывает интервалы из списка и выводит пользователю в отфоматированном виде"""
+    lst.sort()
     i = -1
     new_lst = []
     while i < len(lst) - 1:
-        if lst[i] + timedelta(minutes=15) != lst[i + 1] or lst[i] - timedelta(minutes=15) != lst[i - 1]:
+        if lst[i] - timedelta(minutes=15) != lst[i - 1]:
             new_lst.append(lst[i])
+        elif lst[i] + timedelta(minutes=15) != lst[i + 1]:
+            finish_interval = lst[i] + timedelta(minutes=15)
+            new_lst.append(finish_interval)
         i += 1
     new_lst.sort()
 
