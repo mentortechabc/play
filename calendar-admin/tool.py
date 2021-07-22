@@ -1,7 +1,7 @@
 #!/Usr/bin/env python
 import argparse
 import db
-from convert_time import convert_from_utc, convert_to_utc_day, collapse_and_print_intervals
+from convert_time import convert_from_utc, convert_to_utc_day, collapse_and_print_intervals, convert_to_utc
 from datetime import timedelta
 
 
@@ -73,6 +73,17 @@ def booking(params):
         cur = con.cursor()
         cur.execute("INSERT INTO BookingInfo VALUES (NULL,?,?,?)",
                     (params.name, params.email, params.topic))
+        cur.execute("SELECT id FROM BookingInfo WHERE name == (?) AND email == (?) AND topic == (?)",
+                    (params.name, params.email, params.topic))
+        booking_id = cur.fetchall()
+        for x in booking_id:
+            res = x[0]
+        params_start = convert_to_utc(params.start)
+        params_end = convert_to_utc(params.end)
+        while params_start < params_end:
+            cur.execute(
+                "UPDATE Slots SET booking_id = (?) WHERE start_interval = (?)", (res, params_start))
+            params_start += timedelta(minutes=15)
 
 
 parser = createParser()
