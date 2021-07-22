@@ -56,9 +56,9 @@ def test_create_slots_table():
 
     booking_id = connection.execute("SELECT id FROM BookingInfo").fetchone()[0]
 
-    connection.execute("INSERT INTO slots(start_date, booking_id) values(?, ?)",
+    connection.execute("INSERT INTO slots(start_interval, booking_id) values(?, ?)",
                        ('2021-09-01 12:00:00', booking_id))
-    connection.execute("INSERT INTO slots(start_date, booking_id) values(?, ?)",
+    connection.execute("INSERT INTO slots(start_interval, booking_id) values(?, ?)",
                        ('2021-09-01 12:15:00', booking_id))
 
     result = connection.execute("SELECT * FROM slots").fetchall()
