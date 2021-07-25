@@ -1,31 +1,28 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
-def convert_to_utc(params_time):
+def local_to_utc(local_dt):
     """конвертирует время из таймзоны пользователя в UTC0"""
-    params_time = datetime.strptime(params_time, "%Y-%m-%dT%H:%M")
-    timezone = datetime.now()-datetime.utcnow()
-    params_time -= timezone
-    return params_time
+    local_dt = datetime.fromisoformat(local_dt)
+    utc_dt = local_dt.astimezone(timezone.utc)
+    return utc_dt.replace(tzinfo=None)
 
 
-def convert_to_utc_day(params_time):
-    """конвертирует дату из таймзоны пользователя в UTC0"""
-    params_time = datetime.strptime(params_time, "%Y-%m-%d")
-    timezone = datetime.now()-datetime.utcnow()
-    params_time -= timezone
-    return params_time
-
-
-def convert_from_utc(params_time):
+def utc_to_local(utc_dt):
     """конвертирует время из UTC0 в соответствии с таймзоной пользователя"""
-    timezone = datetime.now()-datetime.utcnow()
-    params_time = datetime.strptime(params_time, "%Y-%m-%d %H:%M:%S")
-    params_time += timezone
-    return params_time
+    utc_dt = datetime.fromisoformat(utc_dt)
+    local_dt = utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
+    return local_dt.replace(tzinfo=None)
 
 
-def collapse_and_print_intervals(lst):
+def utc_to_local_format(utc_dt):
+    return utc_to_local(utc_dt).isoformat(timespec='minutes')
+
+
+# print(utc_to_local('2020-06-24T10:15'))
+
+
+def collapse_intervals(lst):
     """Схлопывает интервалы из списка и выводит пользователю в отфоматированном виде"""
     lst.sort()
     i = -1
@@ -42,5 +39,5 @@ def collapse_and_print_intervals(lst):
     n = 0
     while n < len(new_lst) - 1:
         collapse_interval = ("""{} - {}""".format(new_lst[n], new_lst[n + 1]))
-        return collapse_interval
-    n += 2
+        yield collapse_interval
+        n += 2
