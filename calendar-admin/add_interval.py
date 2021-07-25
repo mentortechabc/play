@@ -10,6 +10,7 @@ def add_interval(params):
     if params_start.minute % 15 == 0 and params_end.minute % 15 == 0:
         with db.create_connection(params.path) as con:
             cur = con.cursor()
+            insert_list = []
             while params_start < params_end:
                 cur.execute("SELECT start_interval FROM Slots WHERE start_interval == (?)", [params_start])
                 interval_list = cur.fetchall()
@@ -22,8 +23,10 @@ def add_interval(params):
                     print('interval ({} - {}) already exist'.format(utc_to_local_format(interval),
                                                                     utc_to_local_format(finish_interval.isoformat())))
                 else:
-                    cur.execute("INSERT INTO Slots (start_interval) VALUES (?)", [params_start])
+                    insert_list.append((params_start,))
+
                 params_start += timedelta(minutes=15)
+            cur.executemany("INSERT INTO Slots (start_interval) VALUES (?)", insert_list)
     else:
         mes = 'Введите интервал кратный 15 минутам'
         print(mes)
