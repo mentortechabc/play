@@ -27,6 +27,6 @@ def convert_from_utc_test(result):
     lst = []
     for interval_tuple in result:
         interval = interval_tuple[0]
-        dt = convert_time.convert_from_utc(interval)
+        dt = convert_time.utc_to_local(interval)
         lst.append(dt.strftime('%Y-%m-%dT%H:%M'))
     return lst
