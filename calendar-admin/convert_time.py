@@ -35,8 +35,7 @@ def collapse_intervals(lst):
             finish_interval = lst[i] + timedelta(minutes=15)
             start_end_lst.append(finish_interval)
         elif lst[i] + timedelta(minutes=15) != lst[i + 1] and lst[i] - timedelta(minutes=15) != lst[i - 1]:
-            finish_interval = lst[i] + timedelta(minutes=15)
-            single_lst.append(finish_interval)
+            single_lst.append(lst[i])
         i += 1
     start_end_lst.sort()
     single_lst.sort()
