@@ -37,7 +37,7 @@ def get_slots(params):
         object_intervals = collapse_intervals(lst_of_intervals)
         for collapse_interval in object_intervals:
             print(collapse_interval)
-        return object_intervals
+        return collapse_interval
 
     if params.day:
         param_start = local_to_utc(params.day)
@@ -51,4 +51,4 @@ def get_slots(params):
         object_intervals = collapse_intervals(lst_of_intervals)
         for collapse_interval in object_intervals:
             print(collapse_interval)
-        return object_intervals
+        return collapse_interval
