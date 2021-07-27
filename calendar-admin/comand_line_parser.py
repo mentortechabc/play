@@ -61,7 +61,7 @@ def correctness_commands(params):
          delete_day         date             ->  YYYY-MM-DD
          get_slots          [-w] [-d] [-f]   ->  week & day: YYYY-MM-DD, 
                                                  filter: 'free' or 'booking'.
-         delete_all                         
+         delete_all         no args          ->  delete all free slots         
         """)
 
 
