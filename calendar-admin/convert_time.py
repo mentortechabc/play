@@ -26,18 +26,26 @@ def collapse_intervals(lst):
     """Схлопывает интервалы из списка и выводит пользователю в отфоматированном виде"""
     lst.sort()
     i = -1
-    new_lst = []
+    start_end_lst = []
+    single_lst =[]
     while i < len(lst) - 1:
-        if lst[i] - timedelta(minutes=15) != lst[i - 1]:
-            new_lst.append(lst[i])
-        elif lst[i] + timedelta(minutes=15) != lst[i + 1]:
+        if lst[i] - timedelta(minutes=15) != lst[i - 1] and lst[i] + timedelta(minutes=15) == lst[i + 1]:
+            start_end_lst.append(lst[i])
+        elif lst[i] + timedelta(minutes=15) != lst[i + 1] and lst[i] - timedelta(minutes=15) == lst[i - 1]:
             finish_interval = lst[i] + timedelta(minutes=15)
-            new_lst.append(finish_interval)
+            start_end_lst.append(finish_interval)
+        elif lst[i] + timedelta(minutes=15) != lst[i + 1] and lst[i] - timedelta(minutes=15) != lst[i - 1]:
+            finish_interval = lst[i] + timedelta(minutes=15)
+            single_lst.append(finish_interval)
         i += 1
-    new_lst.sort()
+    start_end_lst.sort()
+    single_lst.sort()
 
     n = 0
-    while n < len(new_lst) - 1:
-        collapse_interval = ("""{} - {}""".format(new_lst[n], new_lst[n + 1]))
+    while n < len(start_end_lst) - 1:
+        collapse_interval = ("""{} - {}""".format(start_end_lst[n], start_end_lst[n + 1]))
         yield collapse_interval
         n += 2
+    for single_dt in single_lst:
+        single_interval = ("""{} -{}""".format(single_dt, single_dt + timedelta(minutes=15)))
+        yield single_interval
