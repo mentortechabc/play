@@ -1,5 +1,5 @@
 import db
-from convert_time import convert_from_utc, convert_to_utc_day, collapse_and_print_intervals
+from convert_time import utc_to_local, local_to_utc, collapse_intervals
 from datetime import timedelta
 
 
@@ -26,27 +26,29 @@ def get_slots(params):
     """выводит отформатированный список слотов за неделю или за день"""
     lst_of_intervals = []
     if params.week:
-        param_start = convert_to_utc_day(params.week)
+        param_start = local_to_utc(params.week)
         param_end = param_start + timedelta(days=7)
 
         intervals = get_intervals_from_db(params.path, params.filter, param_start, param_end)
         for interval_tuple in intervals:
             assert len(interval_tuple) == 1
             interval = interval_tuple[0]
-            lst_of_intervals.append(convert_from_utc(interval))
-        collapse_interval = collapse_and_print_intervals(lst_of_intervals)
-        print (collapse_interval)
+            lst_of_intervals.append(utc_to_local(interval))
+        object_intervals = collapse_intervals(lst_of_intervals)
+        for collapse_interval in object_intervals:
+            print(collapse_interval)
         return collapse_interval
 
     if params.day:
-        param_start = convert_to_utc_day(params.day)
+        param_start = local_to_utc(params.day)
         param_end = param_start + timedelta(days=1)
 
         intervals = get_intervals_from_db(params.path, params.filter, param_start, param_end)
         for interval_tuple in intervals:
             assert len(interval_tuple) == 1
             interval = interval_tuple[0]
-            lst_of_intervals.append(convert_from_utc(interval))
-        collapse_interval = collapse_and_print_intervals(lst_of_intervals)
-        print (collapse_interval)
+            lst_of_intervals.append(utc_to_local(interval))
+        object_intervals = collapse_intervals(lst_of_intervals)
+        for collapse_interval in object_intervals:
+            print(collapse_interval)
         return collapse_interval

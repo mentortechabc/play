@@ -1,11 +1,11 @@
 import db
-from convert_time import convert_to_utc_day
+from convert_time import local_to_utc
 from datetime import timedelta
 
 
 def delete_day(params):
     """удаляет незанятые интервалы дня"""
-    params_start = convert_to_utc_day(params.date)
+    params_start = local_to_utc(params.date)
     params_end = params_start + timedelta(days=1)
     QUERY = " FROM Slots WHERE (?) <= start_interval AND (?) >= start_interval AND booking_id "
     with db.create_connection(params.path) as con:

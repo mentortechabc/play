@@ -3,6 +3,7 @@ import get_slots as gs
 import delete_day as dd
 import delete_interval as di
 import add_interval as ai
+import delete_all as da
 import re
 
 
@@ -33,6 +34,7 @@ def createParser():
     get_slots.add_argument(
         '--filter', '-f', help="booking and free intervals", choices=['booking', 'free'])
 
+    subparsers.add_parser('delete_all')
     return parser
 
 
@@ -47,6 +49,9 @@ def correctness_commands(params):
         check_format_delete_day(params)
     elif params.command == "get_slots":
         check_format_get_slots(params)
+    elif params.command == "delete_all":
+        da.delete_all(params)
+
     else:
         print("""Input command!:
         ./main.py [-p][--path] <command> <arguments>
@@ -56,6 +61,7 @@ def correctness_commands(params):
          delete_day         date             ->  YYYY-MM-DD
          get_slots          [-w] [-d] [-f]   ->  week & day: YYYY-MM-DD, 
                                                  filter: 'free' or 'booking'.
+         delete_all         no args          ->  delete all free slots         
         """)
 
 
