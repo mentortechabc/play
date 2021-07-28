@@ -24,8 +24,7 @@ def booking(params_for_booking):
         cur = con.cursor()
         cur.execute("INSERT INTO BookingInfo VALUES (NULL,?,?,?)",
                     ('eduard', '@email', 'new message'))
-        cur.execute("SELECT id FROM BookingInfo WHERE name == (?) AND email == (?) AND topic == (?)",
-                    ('eduard', '@email', 'new message'))
+        cur.execute("SELECT MAX(id) AS Last FROM BookingInfo")
         booking_id = cur.fetchall()
         for x in booking_id:
             res = x[0]
