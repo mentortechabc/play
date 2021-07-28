@@ -27,14 +27,13 @@ def test_create_bookinginfo_table(create_conn):
     create_conn.execute(
         "INSERT INTO BookingInfo(name, email, topic) values ('Elon Musk', 'elon_musk@spacex.com', 'contract negotiation')")
     create_conn.execute(
-        "INSERT INTO BookingInfo(name, email, topic) values ('Maye Musk', 'me@mayemusk.com', 'The presentation of the new book')")
+        "INSERT INTO BookingInfo(name, email, topic) values ('Maye Musk', 'me@mayemusk.com', '')")
     cursor = create_conn.execute("SELECT * FROM BookingInfo")
     result = cursor.fetchall()
     assert len(result) == 2
     assert result[0] == (
         1, 'Elon Musk', 'elon_musk@spacex.com', 'contract negotiation')
-    assert result[1] == (2, 'Maye Musk', 'me@mayemusk.com',
-                         'The presentation of the new book')
+    assert result[1] == (2, 'Maye Musk', 'me@mayemusk.com', '')
 
 
 def test_create_slots_table(create_conn):
