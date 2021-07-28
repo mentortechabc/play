@@ -46,5 +46,5 @@ def collapse_intervals(lst):
         yield collapse_interval
         n += 2
     for single_dt in single_lst:
-        single_interval = ("""{} -{}""".format(single_dt, single_dt + timedelta(minutes=15)))
+        single_interval = ("""{} - {}""".format(single_dt, single_dt + timedelta(minutes=15)))
         yield single_interval
