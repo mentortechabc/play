@@ -18,7 +18,7 @@ def createParser():
         'end', help="end of added interval: YYYY-MM-DDThh:mm")
     parser.add_argument('name', help="name: <First name>")
     parser.add_argument('email', help="email")
-    parser.add_argument('-t', '--topic', help="messsage")
+    parser.add_argument('-t', '--topic', help="message")
 
     return parser
 
