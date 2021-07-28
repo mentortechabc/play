@@ -59,7 +59,7 @@ def create_bookinginfo_table(connection: Connection) -> None:
 
 def create_slots_table(connection: Connection) -> None:
     """
-    Creates Slots(id, start_date, booking_id) table using specified connection and
+    Creates Slots(id, start_interval, booking_id) table using specified connection and
     add foreign key for BookingInfo id.
     By default guest's info is null or is taken from BookingInfo.
     """

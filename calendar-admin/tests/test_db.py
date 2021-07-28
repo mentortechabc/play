@@ -40,7 +40,6 @@ def test_create_bookinginfo_table(create_conn):
 def test_create_slots_table(create_conn):
     db.create_bookinginfo_table(create_conn)
     db.create_slots_table(create_conn)
-
     create_conn.execute(
         "INSERT INTO BookingInfo(name, email, topic) values ('Elon Musk', 'elon_musk@spacex.com', 'contract negotiation')")
     booking_id = create_conn.execute(
