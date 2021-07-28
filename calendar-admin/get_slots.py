@@ -1,3 +1,4 @@
+from _pytest.fixtures import yield_fixture
 import db
 from convert_time import utc_to_local, local_to_utc, collapse_intervals
 from datetime import timedelta
