@@ -17,12 +17,12 @@ def create_test_table_with_data_for_get_slots():
 def test_get_slots_week(create_test_table_with_data_for_get_slots):
     params_for_get = SimpleNamespace(path="test_main_db.sqlite",
                                      week="2021-03-02", filter=None, day=None)
-    result = get_slots.get_slots(params_for_get)
-    assert result == '2021-03-02 00:00:00 - 2021-03-09 00:15:00'
+    for result in get_slots.get_slots(params_for_get):
+        assert result == '2021-03-02 00:00:00 - 2021-03-09 00:15:00'
 
 
 def test_get_slots_day(create_test_table_with_data_for_get_slots):
     params_for_get = SimpleNamespace(path="test_main_db.sqlite",
                                      week=None, filter=None, day="2021-03-02")
-    result = get_slots.get_slots(params_for_get)
-    assert result == '2021-03-02 00:00:00 - 2021-03-03 00:15:00'
+    for result in get_slots.get_slots(params_for_get):
+        assert result == '2021-03-02 00:00:00 - 2021-03-03 00:15:00'
