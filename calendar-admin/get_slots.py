@@ -1,3 +1,4 @@
+from _pytest.fixtures import yield_fixture
 import db
 from convert_time import utc_to_local, local_to_utc, collapse_intervals
 from datetime import timedelta
@@ -37,7 +38,7 @@ def get_slots(params):
         object_intervals = collapse_intervals(lst_of_intervals)
         for collapse_interval in object_intervals:
             print(collapse_interval)
-        return collapse_interval
+            yield collapse_interval
 
     if params.day:
         param_start = local_to_utc(params.day)
@@ -51,4 +52,4 @@ def get_slots(params):
         object_intervals = collapse_intervals(lst_of_intervals)
         for collapse_interval in object_intervals:
             print(collapse_interval)
-        return collapse_interval
+            yield collapse_interval
