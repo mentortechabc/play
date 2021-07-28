@@ -49,6 +49,7 @@ def test_get_slots_day(create_test_table_with_data_for_get_slots):
     for result in get_slots.get_slots(params_for_get):
         assert result == '2021-03-02 00:00:00 - 2021-03-03 00:15:00'
 
+
 def test_get_slots_day_free(create_test_table_with_data_for_get_slots):
     params_for_get = SimpleNamespace(path="test_main_db.sqlite",
                                      week=None, filter='free', day="2021-03-02")
@@ -79,3 +80,4 @@ def test_get_slots_week_booking(create_test_table_with_data_for_get_slots):
                                      week="2021-03-02", filter='booking', day=None)
     for result in get_slots.get_slots(params_for_get):
         assert result == '2021-03-02 10:00:00 - 2021-03-03 11:15:00'
+
