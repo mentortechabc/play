@@ -3,33 +3,38 @@ import get_slots as gs
 import delete_day as dd
 import delete_interval as di
 import add_interval as ai
+import delete_all as da
 import re
 
 
 def createParser():
     """создает парсер,подпарсер с аргументами командной строки"""
     parser = argparse.ArgumentParser(
-        description="reads commands and arguments")
-    parser.add_argument('--path', '-p', default='main_db.sqlite')
-    subparsers = parser.add_subparsers(dest='command')
+                        description="reads commands and arguments",
+                        prog = "calendar")
+    parser.add_argument('--path', '-p', default='main_db.sqlite', help = "the path to the database. Default: main_db.sqlite")
+    subparsers = parser.add_subparsers(dest='command',
+                                        title = "Used commands",
+                                        description='Commands to be taken as the first parameter %(prog)s')
 
     add_interval = subparsers.add_parser('add_interval')
-    add_interval.add_argument('start', help="start date YYYY-MM-DDThh:mm")
-    add_interval.add_argument('end', help="end date YYYY-MM-DDThh:mm")
+    add_interval.add_argument('start', help="start of added interval: YYYY-MM-DDThh:mm")
+    add_interval.add_argument('end', help="end of added interval: YYYY-MM-DDThh:mm")
 
     delete_interval = subparsers.add_parser('delete_interval')
-    delete_interval.add_argument('start', help="start date YYYY-MM-DDThh:mm")
-    delete_interval.add_argument('end', help="end date YYYY-MM-DDThh:mm")
+    delete_interval.add_argument('start', help="start of the deleted interval: YYYY-MM-DDThh:mm")
+    delete_interval.add_argument('end', help="end of interval to delete: YYYY-MM-DDThh:mm")
 
     delete_day = subparsers.add_parser('delete_day')
-    delete_day.add_argument('date', help="date YYYY-MM-DD")
+    delete_day.add_argument('date', help="deleted day: YYYY-MM-DD")
 
     get_slots = subparsers.add_parser('get_slots')
-    get_slots.add_argument('--week', '-w', help="7 days from date YYYY-MM-DD")
-    get_slots.add_argument('--day', '-d', help="day YYYY-MM-DD")
+    get_slots.add_argument('--week', '-w', help="interval of seven days from the specified: YYYY-MM-DD")
+    get_slots.add_argument('--day', '-d', help="interval of the specified day: YYYY-MM-DD")
     get_slots.add_argument(
-        '--filter', '-f', help="booking or free", choices=['booking', 'free'])
+        '--filter', '-f', help="booking and free intervals", choices=['booking', 'free'])
 
+    subparsers.add_parser('delete_all')
     return parser
 
 
@@ -44,8 +49,20 @@ def correctness_commands(params):
         check_format_delete_day(params)
     elif params.command == "get_slots":
         check_format_get_slots(params)
+    elif params.command == "delete_all":
+        da.delete_all(params)
+
     else:
-        print("Wrong command!")
+        print("""Input command!:
+        ./main.py [-p][--path] <command> <arguments>
+        Command:           Arguments:           Format:
+         add_interval       start end        ->  YYYY-MM-DDThh:mm  YYYY-MM-DDThh:mm
+         delete_interval    start end        ->  YYYY-MM-DDThh:mm  YYYY-MM-DDThh:mm
+         delete_day         date             ->  YYYY-MM-DD
+         get_slots          [-w] [-d] [-f]   ->  week & day: YYYY-MM-DD, 
+                                                 filter: 'free' or 'booking'.
+         delete_all         no args          ->  delete all free slots         
+        """)
 
 
 def check_format_add_and_del_interval(params, func):
@@ -53,7 +70,7 @@ def check_format_add_and_del_interval(params, func):
     if (regular_start_end(params.start) is True) and (regular_start_end(params.end) is True):
         func(params)
     else:
-        print("wrong format datetime")
+        print("assert: YYYY-MM-DDThh:mm")
 
 
 def check_format_delete_day(params):
@@ -61,13 +78,13 @@ def check_format_delete_day(params):
     if regular_day(params.date) is True:
         dd.delete_day(params)
     else:
-        print("wrong format delete_day")
+        print("assert: YYYY-MM-DD")
 
 
 def check_format_get_slots(params):
     """запуск функции get_slots, если аргументы соответствуют условию"""
     if (check_day_and_week(params.week) is False) or (check_day_and_week(params.day) is False) or (check_filter(params) is False):
-        print("wrong format get_slots")
+        print("assert: YYYY-MM-DD")
     else:
         gs.get_slots(params)
 
@@ -102,6 +119,7 @@ def regular_start_end(x):
     if re.match(pattern, x):
         return True
     else:
+        print('wrong format {}'.format(x))
         return False
 
 
@@ -111,4 +129,5 @@ def regular_day(x):
     if re.match(pattern, x):
         return True
     else:
+        print('wrong format {}'.format(x))
         return False
