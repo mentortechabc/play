@@ -30,8 +30,8 @@ def booking(params):
                     (params.name, params.email, params.topic))
         cur.execute("SELECT MAX(id) AS Last FROM BookingInfo")
         booking_id = cur.fetchall()
-        for x in booking_id:
-            res = x[0]
+        for id in booking_id:
+            res = id[0]
         params_start = local_to_utc(params.start)
         params_end = local_to_utc(params.end)
         while params_start < params_end:
