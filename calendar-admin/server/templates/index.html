@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Calendar Admin</title>
+</head>
+
+<body>
+  <main>
+    <form action="{{url_for('add_users_info')}}" method="post">
+
+      <label for = "name">Name</label>
+      <input id = "name" name = "user_name"></input></br></br>
+
+      <label for = "email" >Email</label>
+      <input id = "email" type = "email" name = "user_email"></input></br></br>
+
+      <label for = "topic" >Topic</label>
+      <textarea id = "topic" type ="text" name = "message"></textarea></br></br>
+
+      <div>start</div>
+        <select name="start_interval">
+          {% for m in menu -%}
+            <option  value="{{m.start_interval}}">{{m.start_interval}}</option>
+          {% endfor -%}
+        </select></br></br>
+    
+      <div>end</div>
+        <select name = "end_interval" >
+          {% for m in menu -%}
+            <option value="{{m.start_interval}}">{{m.start_interval}}</option>
+          {% endfor -%}
+        </select></br></br>
+  
+      <input type = "submit" name = "submit"></input></br>
+    </form>
+  </main>
+</body>
+
+</html>
