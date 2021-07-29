@@ -34,8 +34,7 @@ class FDataBase:
         try:
             self.__cur.execute(
                 "INSERT INTO BookingInfo VALUES(NULL,?,?,?)", (user_name, user_email, message))
-            self.__cur.execute("SELECT id FROM BookingInfo WHERE name == (?) AND email == (?) AND topic == (?)",
-                    (user_name, user_email, message))
+            self.__cur.execute("SELECT MAX(id) AS Last FROM BookingInfo")
             booking_id = self.__cur.fetchall()
             for x in booking_id:
                 res = x[0]
