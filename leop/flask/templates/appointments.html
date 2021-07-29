@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>Appointments</title>
+</head>
+<body>
+    <h1>Appointments for {{ name }}</h1>
+      <ul>
+        {% for booking_item in bookings %}
+            <li id="{{ booking_item[0] }}">
+                <strong>{{ booking_item[1] }}</strong> ({{ booking_item[2] }}) – {{ booking_item[3] }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
