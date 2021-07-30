@@ -23,14 +23,14 @@
       <div>start</div>
         <select name="start_interval">
           {% for m in menu -%}
-            <option  value="{{m.start_interval}}">{{m.start_interval}}</option>
+            <option  value="{{m}}">{{m}}</option>
           {% endfor -%}
         </select></br></br>
     
       <div>end</div>
         <select name = "end_interval" >
           {% for m in menu -%}
-            <option value="{{m.start_interval}}">{{m.start_interval}}</option>
+            <option value="{{m}}">{{m}}</option>
           {% endfor -%}
         </select></br></br>
   

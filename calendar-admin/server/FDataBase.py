@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import sys
 if "C:\learning\play\calendar-admin" not in sys.path:
     sys.path.append("C:\learning\play\calendar-admin")
-from convert_time import utc_to_local,utc_to_local_format
+from convert_time import utc_to_local,local_to_utc
 
 
 
@@ -14,18 +14,14 @@ class FDataBase:
 
     def get_slots(self):
         sql = '''SELECT start_interval FROM Slots Where booking_id IS NULL'''
-        # lst=[]
+        lst=[]
         try:
             self.__cur.execute(sql)
             res = self.__cur.fetchall()
-            # print(res)
-            # for x in res:
-            #     x = x[0]
-            #     lst.append(x)
-            # print(lst)
-            # return res
-            if res:
-                return res
+            for x in res:
+                x = x[0]
+                lst.append(utc_to_local(x))
+            return lst
         except:
             print('Ошибка чтения из БД')
         return []
@@ -38,17 +34,10 @@ class FDataBase:
             booking_id = self.__cur.fetchall()
             for x in booking_id:
                 res = x[0]
-            params_start = start_interval.split(' ')
-            params_end = end_interval.split(' ')
-            params_start = 'T'.join(params_start)
-            params_end = 'T'.join(params_end)
-            params_start = utc_to_local(params_start)
-            params_end = utc_to_local(params_end)
-            print(params_start,params_end)
-            while params_start < params_end:
-                self.__cur.execute(
-                    "UPDATE Slots SET booking_id = (?) WHERE start_interval = (?)", (res, params_start))
-                params_start += timedelta(minutes=15)
+            params_start = local_to_utc(start_interval)
+            params_end = local_to_utc(end_interval)
+            self.__cur.execute(
+                    "UPDATE Slots SET booking_id = (?) WHERE start_interval BETWEEN (?) AND (?)", (res, params_start,params_end))
             self.__db.commit()
         except sqlite3.Error as e:
             print(e)
