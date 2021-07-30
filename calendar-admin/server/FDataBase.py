@@ -1,8 +1,4 @@
 import sqlite3
-from datetime import datetime, timedelta
-import sys
-if "C:\learning\play\calendar-admin" not in sys.path:
-    sys.path.append("C:\learning\play\calendar-admin")
 from convert_time import utc_to_local,local_to_utc
 
 
