@@ -1,0 +1,12 @@
+FROM python:3.9
+
+WORKDIR /app
+
+# install dependencies
+RUN pip install --upgrade pip
+COPY web_app2 /app
+RUN pip install -r requirements.txt
+
+ENV FLASK_APP=app.py
+
+CMD ["python3", "app.py"]

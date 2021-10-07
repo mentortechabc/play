@@ -1,0 +1,16 @@
+version: '3.0'
+
+services:
+  web_app:
+    image: my_app
+    ports:
+      - 5000:5000
+    network_mode: "host"
+
+  web_app2:
+    image: my_app2
+    depends_on:
+      - web_app
+    network_mode: "host"
+
+
