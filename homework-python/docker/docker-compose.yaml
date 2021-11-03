@@ -1,0 +1,28 @@
+version: '3.0'
+
+services:
+  web_app:
+    build: web_app
+    ports:
+      - 5000:5000
+
+  web_app2:
+    build: web_app2
+    depends_on:
+      - web_app
+    environment:
+      TARGET_HOST: web_app
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_flask
+      - POSTGRES_PASSWORD=hello_flask
+      - POSTGRES_DB=hello_flask_dev
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres_data:
